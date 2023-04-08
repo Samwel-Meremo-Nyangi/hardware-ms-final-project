@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Product Details</title>
+  <style>
+    /* CSS code for styling the form */
+    form {
+      margin: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    label {
+      display: block;
+      margin: 10px 0;
+    }
+    input[type=text], select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+    }
+    input[type=submit] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    input[type=submit]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  
+  <h1>Add Product Details</h1>
+
+  <form method="POST" action="">
+    <label for="name">Product Name:</label>
+    <input type="text" id="name" name="name" placeholder="Enter product name">
+
+    <label for="price">Product Price:</label>
+    <input type="text" id="price" name="price" placeholder="Enter product price">
+
+    <label for="description">Product Description:</label>
+    <input type="text" id="description" name="description" placeholder="Enter product description">
+
+    <label for="category">Product Category:</label>
+    <select id="category" name="category">
+      <option value="electronics">Electronics</option>
+      <option value="clothing">Clothing</option>
+      <option value="books">Books</option>
+    </select>
+
+    <input type="submit" value="Submit">
+  </form>
+
+  <script>
+    // JavaScript code to validate the form
+    const form = document.querySelector('form');
+    const name = document.querySelector('#name');
+    const price = document.querySelector('#price');
+    const description = document.querySelector('#description');
+    const category = document.querySelector('#category');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      
+      if (name.value === '' || price.value === '' || description.value === '') {
+        alert('Please fill in all fields');
+      } else {
+        // Call PHP function to add data to the database
+        <?php
+          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'];
+            $price = $_POST['price'];
+            $description = $_POST['description'];
+            $category = $_POST['category'];
+
+            $servername = 'localhost';
+            $username = 'root';
+            $password = '';
+            $dbname = '';
+
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $dbname);
+
+            // Check connection
+            if ($conn->connect_error) {
+              die('Connection failed: ' . $conn->connect_error);
+            }
+
+            // Insert data into database
+            $sql = "INSERT INTO products (name, price, description, category) VALUES ('$name', '$price', '$description', '$category')";
+
+            if ($conn->query($sql) === TRUE) {
+              echo 'alert("Product added successfully");';
+            } else {
+                echo 'alert("Error adding product: ' . $conn->error . '");';
+            }
+                $conn->close();
+                    }
+                ?>
+                }       
+                });
+                    </script>
+                    </body>
+                </html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Our Products</title>
+	<style>
+		body {
+			background-color: #f2f2f2;
+			font-family: Arial, sans-serif;
+			font-size: 14px;
+			line-height: 1.5;
+			color: #333;
+		}
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			border: 1px solid #ccc;
+			background-color: #fff;
+		}
+		h1 {
+			margin-top: 0;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-bottom: 20px;
+		}
+		th, td {
+			padding: 10px;
+			text-align: left;
+			vertical-align: top;
+			border-bottom: 1px solid #ccc;
+		}
+		th {
+			background-color: #eee;
+		}
+		a {
+			display: inline-block;
+			padding: 5px 10px;
+			background-color: #4CAF50;
+			color: #fff;
+			text-decoration: none;
+			border-radius: 4px;
+			margin-right: 10px;
+		}
+		a:hover {
+			background-color: #3e8e41;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Bibo Hardwares Products</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>Products Name</th>
+					<th>Price</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+			 <?php
+					// connect to database
+				$host = 'localhost';
+					$username = 'your_username_here';
+					$password = 'your_password_here';
+					$database = 'your_database_name_here';
+					$conn = mysqli_connect($host, $username, $password, $database);
+					if (!$conn) {
+						die('Could not connect to database: ' . mysqli_error($conn));
+					}
+					// retrieve items from database
+					$query = 'SELECT * FROM items';
+					$result = mysqli_query($conn, $query);
+					if (!$result) {
+						die('Error retrieving items from database: ' . mysqli_error($conn));
+					}
+					while ($row = mysqli_fetch_assoc($result)) {
+						echo '<tr>';
+						echo '<td>' . htmlspecialchars($row['item_number']) . '</td>';
+						echo '<td>' . htmlspecialchars($row['item_name']) . '</td>';
+						echo '<td>' . htmlspecialchars($row['description']) . '</td>';
+						echo '<td>$' . number_format($row['price'], 2) . '</td>';
+						echo '</tr>';
+					}
+					mysqli_free_result($result);
+					mysqli_close($conn);
+				?>
+			</tbody>
+		</table>
+		<a href="cart.php">View Cart</a>
+	</div>
+</body>
+</html>
